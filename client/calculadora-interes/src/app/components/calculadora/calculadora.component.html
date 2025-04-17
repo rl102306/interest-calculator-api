@@ -1,0 +1,28 @@
+
+<form [formGroup]="form" (ngSubmit)="enviar()">
+  <div>
+    <label>Monto Inicial</label>
+    <input type="number" formControlName="montoInicial" />
+  </div>
+  <div>
+    <label>Tasa de Interés (%)</label>
+    <input type="number" formControlName="tasaInteres" />
+  </div>
+  <div>
+    <label>Años</label>
+    <input type="number" formControlName="anios" />
+  </div>
+  <button type="submit">Calcular</button>
+  <div *ngIf="errorMessage">{{errorMessage}}</div>
+</form>
+
+<div *ngIf="resultado">
+  <canvas baseChart 
+    [datasets]="[
+      { data: resultado.interes_compuesto.map(x => x.monto), label: 'Interés Compuesto', borderColor: 'blue' },
+      { data: resultado.interes_simple.map(x => x.monto), label: 'Interés Simple', borderColor: 'red' }
+    ]"
+    [labels]="resultado.interes_compuesto.map(x => 'Año ' + x.anio)"
+    [chartType]="'line'">
+  </canvas>
+</div>
